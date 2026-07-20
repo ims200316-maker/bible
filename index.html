@@ -100,7 +100,7 @@
         <textarea id="userInput" placeholder="정답을 입력하세요..." autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
         <div class="quiz-btns">
             <button class="btn-gray" onclick="prevQuestion()">이전 암송(-)</button>
-            <button class="btn-gray" onclick="nextQuestion()">다음 암송(+)</button>
+            <button class="btn-gray" onclick="nextQuestion()">다음 암송(=)</button>
             <button class="btn-book" style="padding:10px;" onclick="checkAnswer()">정답 확인</button>
             <button class="btn-stop" onclick="goBackManually()">그만하기</button>
         </div>
@@ -241,7 +241,7 @@
     document.addEventListener('keydown', function(e) {
         const quizScreen = document.getElementById('quiz-screen');
         if (!quizScreen.classList.contains('hidden')) {
-            if (e.key === '+') {
+            if (e.key === '=') {
                 e.preventDefault();
                 nextQuestion();
             } else if (e.key === '-') {
