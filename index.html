@@ -85,7 +85,6 @@
             </div>
         </div>
         <div style="border-top: 1px solid #eee; padding-top: 20px; display: flex; flex-direction: column;">
-            <!-- 이모지 제거 -->
             <button class="btn-contest" onclick="startQuiz()">연습시작 (당월+익월)</button>
             <button class="btn-book" onclick="showBook()">전체 암송수첩 보기</button>
         </div>
@@ -99,8 +98,9 @@
         </div>
         <textarea id="userInput" placeholder="정답을 입력하세요..." autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
         <div class="quiz-btns">
-            <button class="btn-gray" onclick="prevQuestion()">이전 암송(-)</button>
-            <button class="btn-gray" onclick="nextQuestion()">다음 암송(=)</button>
+            <!-- 단축키 문구를 F1, F2로 변경 -->
+            <button class="btn-gray" onclick="prevQuestion()">이전 암송(F1)</button>
+            <button class="btn-gray" onclick="nextQuestion()">다음 암송(F2)</button>
             <button class="btn-book" style="padding:10px;" onclick="checkAnswer()">정답 확인</button>
             <button class="btn-stop" onclick="goBackManually()">그만하기</button>
         </div>
@@ -108,7 +108,6 @@
     </div>
 
     <div id="book-screen" class="card hidden">
-        <!-- 이모지 제거 -->
         <h2 style="font-size: 1.8rem; color: #000;">전체 암송수첩</h2>
         <div class="book-container" id="book-list"></div>
         <button class="btn-gray" onclick="goBackManually()" style="margin-top:20px; width:100%;">돌아가기</button>
@@ -147,7 +146,6 @@
         let nextMonth = month + 1;
         if (nextMonth > 13) nextMonth = 1; 
         currentList.push(...bibleData[nextMonth]);
-        // 이모지 제거
         document.getElementById('quiz-title').innerText = `${month}월 암송 대회 (범위: ${month}월+익월)`;
         history.pushState({page: "quiz"}, "Quiz");
         document.getElementById('setup-screen').classList.add('hidden');
@@ -241,11 +239,12 @@
     document.addEventListener('keydown', function(e) {
         const quizScreen = document.getElementById('quiz-screen');
         if (!quizScreen.classList.contains('hidden')) {
-            if (e.key === '=') {
-                e.preventDefault();
+            // 단축키를 F1(이전), F2(다음)로 변경
+            if (e.key === 'F2') {
+                e.preventDefault(); // 인터넷 브라우저 기본 동작 방지
                 nextQuestion();
-            } else if (e.key === '-') {
-                e.preventDefault();
+            } else if (e.key === 'F1') {
+                e.preventDefault(); // 도움말 창 뜨는 것 방지
                 prevQuestion();
             }
         }
