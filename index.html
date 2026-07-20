@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>임원 암송시험 연습프로그램</title>
+    <!-- 인터넷 창 탭 이름 변경 -->
+    <title>임원 암송시험 연습</title>
+    <!-- 인터넷 창 탭 아이콘(파비콘) 적용 -->
+    <link rel="icon" type="image/png" href="생명의말씀선교회CI_심볼 3D.png">
+    
     <style>
         /* KoPubWorld 돋움체 웹 폰트 적용 */
         @font-face {
@@ -98,7 +102,6 @@
         </div>
         <textarea id="userInput" placeholder="정답을 입력하세요..." autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
         <div class="quiz-btns">
-            <!-- 단축키 문구를 F1, F2로 변경 -->
             <button class="btn-gray" onclick="prevQuestion()">이전 암송(F1)</button>
             <button class="btn-gray" onclick="nextQuestion()">다음 암송(F2)</button>
             <button class="btn-book" style="padding:10px;" onclick="checkAnswer()">정답 확인</button>
@@ -146,6 +149,7 @@
         let nextMonth = month + 1;
         if (nextMonth > 13) nextMonth = 1; 
         currentList.push(...bibleData[nextMonth]);
+        
         document.getElementById('quiz-title').innerText = `${month}월 암송 대회 (범위: ${month}월+익월)`;
         history.pushState({page: "quiz"}, "Quiz");
         document.getElementById('setup-screen').classList.add('hidden');
@@ -239,12 +243,11 @@
     document.addEventListener('keydown', function(e) {
         const quizScreen = document.getElementById('quiz-screen');
         if (!quizScreen.classList.contains('hidden')) {
-            // 단축키를 F1(이전), F2(다음)로 변경
             if (e.key === 'F2') {
-                e.preventDefault(); // 인터넷 브라우저 기본 동작 방지
+                e.preventDefault();
                 nextQuestion();
             } else if (e.key === 'F1') {
-                e.preventDefault(); // 도움말 창 뜨는 것 방지
+                e.preventDefault();
                 prevQuestion();
             }
         }
