@@ -96,7 +96,8 @@
                 <label>🔄 진행 순서</label>
                 <select id="order-select">
                     <option value="sequential">순서대로 (처음부터)</option>
-                    <option value="random">무작위 (섞어서)</option>
+                    <!-- 글자 수정: 무작위 -->
+                    <option value="random">무작위</option>
                 </select>
             </div>
         </div>
@@ -192,6 +193,11 @@
         if (nextMonth > 13) nextMonth = 1; 
         currentList.push(...bibleData[nextMonth]);
         
+        // ✨ 여기서 전체 목록(당월+익월)을 딱 한 번 무작위로 섞습니다. (중복 발생 안 함)
+        if (playOrder === 'random') {
+            currentList.sort(() => Math.random() - 0.5);
+        }
+
         wrongItemsRecord = currentList.map(item => ({ ...item, wrongCount: 0 }));
 
         document.getElementById('title-text').innerText = `${month}월 암송 대회 (범위: ${month}월+익월)`;
@@ -381,7 +387,6 @@
                 e.preventDefault();
                 prevQuestion();
             } else if (e.key === 'Escape') {
-                // ✨ 핵심 추가: Esc 키를 누르면 홈으로 돌아가기
                 e.preventDefault();
                 goBackManually();
             }
