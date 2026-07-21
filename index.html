@@ -117,7 +117,6 @@
         </div>
         <textarea id="userInput" placeholder="정답을 입력하세요..." autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
         
-        <!-- 버튼 배치를 2줄로 수정 및 순서 변경 -->
         <div class="quiz-btns-top">
             <button class="btn-gray" onclick="prevQuestion()">이전(F1)</button>
             <button class="btn-gray" onclick="nextQuestion()">다음(F2)</button>
@@ -125,7 +124,8 @@
         </div>
         <div class="quiz-btns-bottom">
             <button class="btn-book" onclick="checkAnswer()">정답 확인</button>
-            <button class="btn-stop" onclick="goBackManually()">그만하기</button>
+            <!-- 버튼 이름 변경 -->
+            <button class="btn-stop" onclick="goBackManually()">홈으로(Esc)</button>
         </div>
         
         <div id="result"></div>
@@ -380,6 +380,10 @@
             } else if (e.key === 'F1') {
                 e.preventDefault();
                 prevQuestion();
+            } else if (e.key === 'Escape') {
+                // ✨ 핵심 추가: Esc 키를 누르면 홈으로 돌아가기
+                e.preventDefault();
+                goBackManually();
             }
         }
     });
