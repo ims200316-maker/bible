@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- 인터넷 창 탭 이름 변경 -->
     <title>임원 암송시험 연습</title>
-    <!-- 인터넷 창 탭 아이콘(파비콘) 적용 -->
-    <link rel="icon" type="image/png" href="생명의말씀선교회CI_심볼 3D.png">
+    <!-- 인터넷 창 탭 아이콘(파비콘) 적용 (캐시 무효화를 위해 ?v=2 추가) -->
+    <link rel="icon" type="image/png" href="생명의말씀선교회CI_심볼(일반).png?v=2">
     
     <style>
         /* KoPubWorld 돋움체 웹 폰트 적용 */
@@ -96,7 +96,6 @@
                 <label>🔄 진행 순서</label>
                 <select id="order-select">
                     <option value="sequential">순서대로 (처음부터)</option>
-                    <!-- 글자 수정: 무작위 -->
                     <option value="random">무작위</option>
                 </select>
             </div>
@@ -125,7 +124,6 @@
         </div>
         <div class="quiz-btns-bottom">
             <button class="btn-book" onclick="checkAnswer()">정답 확인</button>
-            <!-- 버튼 이름 변경 -->
             <button class="btn-stop" onclick="goBackManually()">홈으로(Esc)</button>
         </div>
         
@@ -193,7 +191,6 @@
         if (nextMonth > 13) nextMonth = 1; 
         currentList.push(...bibleData[nextMonth]);
         
-        // ✨ 여기서 전체 목록(당월+익월)을 딱 한 번 무작위로 섞습니다. (중복 발생 안 함)
         if (playOrder === 'random') {
             currentList.sort(() => Math.random() - 0.5);
         }
@@ -272,13 +269,12 @@
         loadCurrentQuestion();
     }
     
-    // 현재 문제 재시도 (초기화)
     function retryCurrentQuestion() {
         document.getElementById('userInput').value = "";
         document.getElementById('result').innerHTML = "";
-        isCorrectState = false; // 정답 상태 해제
+        isCorrectState = false; 
         setTimeout(() => {
-            document.getElementById('userInput').focus(); // 다시 포커스 잡기
+            document.getElementById('userInput').focus(); 
         }, 10);
     }
 
@@ -291,7 +287,7 @@
         if (cleanText(userIn) === cleanText(target)) {
             isCorrectState = true; 
             document.getElementById('result').innerHTML = "<div style='color:green; font-weight:bold; font-size:1.2em; text-align:center;'>✨ 정답입니다! <span style='font-size:0.8em; color:#666;'><br>(Enter를 누르면 다음으로 넘어갑니다)</span></div>";
-            document.getElementById('userInput').blur(); // 모바일 키보드 숨김
+            document.getElementById('userInput').blur(); 
         } else {
             isCorrectState = false;
             const record = wrongItemsRecord.find(r => r.ref === currentItem.ref && r.content === currentItem.content);
@@ -370,7 +366,6 @@
         nextQuestion();
     }
 
-    // 문서 전체 기준의 이벤트 리스너
     document.addEventListener('keydown', function(e) {
         const quizScreen = document.getElementById('quiz-screen');
         if (!quizScreen.classList.contains('hidden')) {
@@ -379,7 +374,7 @@
                 nextQuestion();
             } else if (e.key === 'F3') {
                 e.preventDefault();
-                retryCurrentQuestion(); // 현재 암송 다시 하기
+                retryCurrentQuestion();
             } else if (e.key === 'F2') {
                 e.preventDefault();
                 nextQuestion();
@@ -393,7 +388,6 @@
         }
     });
 
-    // 텍스트 영역(userInput) 이벤트 리스너
     document.getElementById('userInput').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey && !isCorrectState) {
             if (window.innerWidth > 768) { 
