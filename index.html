@@ -52,7 +52,10 @@
         .book-month-title { background: var(--primary); color: white; padding: 4px 10px; border-radius: 5px; font-size: 16px; margin-top: 15px; display: inline-block; } 
         .book-item { margin: 8px 0; padding: 10px; border-bottom: 1px solid #eee; font-size: 17px; line-height: 1.5; } 
         .topic-badge { background: #fff3e0; color: #e65100; padding: 2px 6px; border-radius: 4px; font-size: 15px; font-weight: bold; margin-bottom: 4px; display: inline-block; } 
-        .quiz-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        
+        /* 버튼 레이아웃 수정 */
+        .quiz-btns-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .quiz-btns-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .hidden { display: none; }
         
         #quiz-title { font-weight:bold; color:var(--primary); font-size: 17px; margin-bottom:10px; display: flex; justify-content: space-between; align-items: center; } 
@@ -113,12 +116,18 @@
             <div id="question-text"></div>
         </div>
         <textarea id="userInput" placeholder="정답을 입력하세요..." autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-        <div class="quiz-btns">
-            <button class="btn-gray" onclick="prevQuestion()">이전 암송(F1)</button>
-            <button class="btn-gray" onclick="nextQuestion()">다음 암송(F2)</button>
-            <button class="btn-book" style="padding:10px;" onclick="checkAnswer()">정답 확인</button>
+        
+        <!-- 버튼 배치를 2줄로 수정 -->
+        <div class="quiz-btns-top">
+            <button class="btn-gray" onclick="prevQuestion()">이전(F1)</button>
+            <button class="btn-gray" onclick="retryCurrentQuestion()">다시(F3)</button>
+            <button class="btn-gray" onclick="nextQuestion()">다음(F2)</button>
+        </div>
+        <div class="quiz-btns-bottom">
+            <button class="btn-book" onclick="checkAnswer()">정답 확인</button>
             <button class="btn-stop" onclick="goBackManually()">그만하기</button>
         </div>
+        
         <div id="result"></div>
     </div>
 
@@ -256,6 +265,16 @@
         if (currentIndex < 0) currentIndex = 0;
         loadCurrentQuestion();
     }
+    
+    // 현재 문제 다시 하기 (초기화)
+    function retryCurrentQuestion() {
+        document.getElementById('userInput').value = "";
+        document.getElementById('result').innerHTML = "";
+        isCorrectState = false; // 정답 상태 해제
+        setTimeout(() => {
+            document.getElementById('userInput').focus(); // 다시 포커스 잡기
+        }, 10);
+    }
 
     function cleanText(text) { return text.replace(/[\s,]/g, ""); }
 
@@ -349,10 +368,12 @@
     document.addEventListener('keydown', function(e) {
         const quizScreen = document.getElementById('quiz-screen');
         if (!quizScreen.classList.contains('hidden')) {
-            // 정답을 맞춘 상태에서 엔터를 누르면 다음으로 넘어감
             if (e.key === 'Enter' && !e.shiftKey && isCorrectState) {
                 e.preventDefault();
                 nextQuestion();
+            } else if (e.key === 'F3') {
+                e.preventDefault();
+                retryCurrentQuestion(); // 현재 암송 다시 하기
             } else if (e.key === 'F2') {
                 e.preventDefault();
                 nextQuestion();
@@ -366,10 +387,8 @@
     // 텍스트 영역(userInput) 이벤트 리스너
     document.getElementById('userInput').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey && !isCorrectState) {
-            // 데스크탑 환경에서만 엔터로 정답 확인
             if (window.innerWidth > 768) { 
                 e.preventDefault(); 
-                // ✨ 핵심 추가: 정답 확인용 엔터가 문서 전체 리스너로 넘어가지 않게 차단!
                 e.stopPropagation(); 
                 checkAnswer(); 
             }
